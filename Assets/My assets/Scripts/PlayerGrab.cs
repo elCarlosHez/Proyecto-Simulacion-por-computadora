@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerGrab : MonoBehaviour
 {
@@ -33,15 +34,15 @@ public class PlayerGrab : MonoBehaviour
         {
             if(hands.GetComponent<Grab>().canGrab)
             {
+                Debug.Log("but");
                 hands.GetComponent<Grab>().canGrab = false;
                 //Debug.Log(hands.GetComponent<Grab>().getLastItem());
                 Item item = hands.GetComponent<Grab>().getLastObject();
                 item.disable();
                 itemIcons[item.getId()].SetActive(true);
                 handItem = item.getId();
-            }
-
-            if(hands.GetComponent<Grab>().canInteract){
+                return;
+            }else if(hands.GetComponent<Grab>().canInteract){
                 hands.GetComponent<Grab>().canInteract = false;
                 Item item = hands.GetComponent<Grab>().getLastObject().GetComponent<Item>();
                 Debug.Log(item.getId());
@@ -63,8 +64,17 @@ public class PlayerGrab : MonoBehaviour
                     if(item.getId() == 4){
                         item.gameObject.SetActive(false);
                         itemIcons[2].SetActive(false);
+                        itemIcons[3].SetActive(true);
                         return;
                     }
+
+                    if(item.getId() == 6){
+                        itemIcons[3].SetActive(false);
+                        SceneManager.LoadScene(2);
+                        return;
+                    }
+
+
 
                     itemIcons[item.interactItem.GetComponent<Item>().getId()].SetActive(false);
                     itemIcons[item.getId()].SetActive(true);
